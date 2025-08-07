@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NotSliming's Website</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Arial", sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: #0d1b2a;
+      color: #fff;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .header-container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo { font-size: 1.5rem; font-weight: bold; }
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .nav-links a:hover { color: #f4a261; }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+    }
+    .social-icons a svg {
+      transition: transform 0.3s ease, fill 0.3s ease;
+      fill: white;
+    }
+    .social-icons a:hover svg {
+      transform: scale(1.2);
+      fill: #f4a261;
+    }
+
+    section {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 100vh;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    section.active {
+      opacity: 1;
+      visibility: visible;
+      position: relative;
+    }
+
+    .new-home {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(13,27,42,0.9), rgba(27,38,59,0.9)),
+                  url('https://picsum.photos/1920/1080?random') center/cover no-repeat;
+      color: #fff;
+      text-align: center;
+    }
+    .home-content { max-width: 900px; padding: 20px; }
+    .home-title {
+      font-size: 3.5rem;
+      font-weight: bold;
+      text-shadow: 0px 0px 15px rgba(244,162,97,0.8);
+      margin-bottom: 20px;
+    }
+    .home-subtitle { font-size: 1.3rem; margin-bottom: 50px; color: #ddd; }
+    .home-buttons {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .home-btn {
+      background: linear-gradient(45deg, #f4a261, #e76f51);
+      color: #fff;
+      padding: 15px 40px;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+    }
+    .home-btn:hover {
+      transform: scale(1.15);
+      background: linear-gradient(45deg, #e76f51, #f4a261);
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .services-page .hero {
+      background: linear-gradient(135deg, #0d1b2a, #1b263b);
+      color: #fff;
+      text-align: center;
+      padding: 120px 20px 80px;
+    }
+    .hero h1 { font-size: 2.8rem; margin-bottom: 15px; }
+    .hero p { font-size: 1.2rem; margin-bottom: 25px; color: #ddd; }
+
+    .services {
+      padding: 60px 20px 100px;
+      text-align: center;
+      background: linear-gradient(135deg, #edf2f4, #f8f9fa);
+    }
+    .services h2 { margin-bottom: 40px; font-size: 2.3rem; color: #0d1b2a; }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .card {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(12px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .card:hover { transform: translateY(-12px) scale(1.03); }
+
+    .about {
+      background: linear-gradient(rgba(244,162,97,0.85), rgba(231,111,81,0.85)),
+                  url('https://picsum.photos/1600/900?blur') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .about-card {
+      background: rgba(255,255,255,0.9);
+      max-width: 800px;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    .grow-page {
+      background: linear-gradient(rgba(34,139,34,0.85), rgba(50,205,50,0.85)),
+                  url('https://picsum.photos/1600/900?green') center/cover no-repeat;
+      display: flex; justify-content: center; align-items: center; text-align: center;
+      padding: 60px 20px;
+    }
+    .grow-card, .drawings-card, .websites-card {
+      background: rgba(255,255,255,0.9);
+      padding: 40px; border-radius: 20px; max-width: 700px;
+    }
+
+    .drawings-page {
+      background: linear-gradient(rgba(131,56,236,0.85), rgba(203,56,236,0.85)),
+                  url('https://picsum.photos/1600/900?purple') center/cover no-repeat;
+      display: flex; justify-content: center; align-items: center; text-align: center;
+      padding: 60px 20px;
+    }
+
+    .websites-page {
+      background: linear-gradient(rgba(0,123,255,0.85), rgba(0,200,255,0.85)),
+                  url('https://picsum.photos/1600/900?blue') center/cover no-repeat;
+      display: flex; justify-content: center; align-items: center; text-align: center;
+      padding: 60px 20px;
+    }
+
+    .back-btn {
+      margin-top: 30px;
+      background: #0d1b2a;
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .back-btn:hover { background: #1b263b; }
+  </style>
+</head>
+<body>
+  
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <div class="logo">NotSliming</div>
+      <div class="nav-icons">
+        <ul class="nav-links">
+          <li><a onclick="showPage('homePage')">Home</a></li>
+          <li><a onclick="showPage('servicesPage')">Services</a></li>
+          <li><a onclick="showPage('aboutPage')">About</a></li>
+        </ul>
+        <div class="social-icons">
+          <!-- YouTube -->
+          <a href="https://www.youtube.com/@NotSliming" target="_blank" title="YouTube">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="white">
+              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.4 3.5 12 3.5 12 3.5s-7.4 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.2 0 12 0 12s0 3.8.5 5.8a3 3 0 0 0 2.1 2.1c2 .6 9.4.6 9.4.6s7.4 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8zM9.75 15.5v-7l6 3.5-6 3.5z"/>
+            </svg>
+          </a>
+          <!-- Discord -->
+          <a href="https://discord.gg/WUvZwu3s" target="_blank" title="Discord">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 71 55" fill="white">
+              <path d="M60.1 4.9C55.6 2.8 50.7 1.3 45.6.4c-.1 0-.2.1-.2.2-.6 1-1.3 2.4-1.8 3.4-5.2-.8-10.4-.8-15.6 0-.5-1-1.2-2.4-1.8-3.4-.1-.1-.2-.2-.3-.2C20.3 1.3 15.4 2.8 10.9 4.9c0 0-10.3 15.3-10.3 34.1 0 0 6 10.3 21.8 10.8 0 0 2.6-3.1 4.7-5.8-8.9-2.7-12.3-8.3-12.3-8.3s.7.5 2 .8c0 0 .1 0 .2.1 0 0 .1 0 .2.1.8.3 1.7.6 2.7.9 1.5.4 3.3.8 5.4 1.1 2.8.3 6 .5 9.7.5s6.9-.2 9.7-.5c2.1-.2 3.9-.6 5.4-1.1 1-.3 1.9-.6 2.7-.9.1 0 .2-.1.2-.1.1 0 .1 0 .2-.1 1.3-.4 2-.8 2-.8s-3.4 5.6-12.3 8.3c2.1 2.7 4.6 5.8 4.6 5.8 15.8-.5 21.8-10.8 21.8-10.8 0-18.8-10.2-34.1-10.2-34.1zM23.7 37.3c-2.5 0-4.5-2.5-4.5-5.5s2-5.5 4.5-5.5c2.5 0 4.5 2.5 4.5 5.5s-2 5.5-4.5 5.5zm23.6 0c-2.5 0-4.5-2.5-4.5-5.5s2-5.5 4.5-5.5c2.5 0 4.5 2.5 4.5 5.5s-2 5.5-4.5 5.5z"/>
+            </svg>
+          </a>
+          <!-- Roblox -->
+          <a href="https://www.roblox.com/users/2620197827/profile" target="_blank" title="Roblox">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512" fill="white">
+              <path d="M70 0L512 110 442 512 0 402 70 0z"/>
+              <rect x="200" y="200" width="112" height="112" transform="rotate(14 256 256)" fill="black"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <section class="new-home active" id="homePage">
+    <div class="home-content">
+      <h1 class="home-title">NotSliming's Website</h1>
+      <p class="home-subtitle">🎥 YouTuber • 🎨 Artist • 💻 Programmer • 🎮 Roblox Player</p>
+      <div class="home-buttons">
+        <a onclick="showPage('servicesPage')" class="home-btn">Services</a>
+        <a onclick="showPage('aboutPage')" class="home-btn">About</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services-page" id="servicesPage">
+    <div class="hero">
+      <h1>🚀 My Services</h1>
+      <p>Helping you grow with creativity, tech & community.</p>
+    </div>
+    <div class="services">
+      <h2>What I Can Do</h2>
+      <div class="card-grid">
+        <div class="card" onclick="showPage('growAGardenPage')">
+          <span>🌱</span>
+          <h3>Grow a Garden Pets</h3>
+          <p>Trading Grow a Garden pets with each other!!</p>
+        </div>
+        <div class="card" onclick="showPage('drawingsPage')">
+          <span>🎨</span>
+          <h3>Making Professional Drawings -ngf</h3>
+          <p>drawing for ingame values, and irl values!!</p>
+        </div>
+        <div class="card" onclick="showPage('websitesPage')">
+          <span>💻</span>
+          <h3>Making Websites -ngf</h3>
+          <p>Modern and responsive websites built for you!</p>
+        </div>
+      </div>
+      <a onclick="showPage('homePage')" class="back-btn">⬅ Back to Home</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="aboutPage">
+    <div class="about-card">
+      <h2>About Me</h2>
+      <p>🎥 I’m a <strong>YouTuber</strong> with <strong>400+ subscribers</strong>.  
+         Check out my channel here: <a href="https://www.youtube.com/@NotSliming" target="_blank">YouTube Channel</a>.</p>
+      <p>🎨 I’m an <strong>artist</strong> and I make drawings for pets in <em>Grow a Garden (Roblox)</em>.</p>
+      <p>💻 I’m also a <strong>programmer</strong>, building websites and apps for money and pets.</p>
+      <p>🎮 I also <strong>play Roblox</strong> – visit my profile here:  
+         <a href="https://www.roblox.com/users/2620197827/profile" target="_blank">My Roblox Profile</a></p>
+      <p>💬 I run a <strong>Discord server</strong> dedicated to gaming and chatting with friends.  
+         Join here 👉 <a href="https://discord.gg/WUvZwu3s" target="_blank">My Discord Server</a></p>
+      <a onclick="showPage('homePage')" class="back-btn">⬅ Back to Home</a>
+    </div>
+  </section>
+
+  <!-- GROW A GARDEN -->
+  <section class="grow-page" id="growAGardenPage">
+    <div class="grow-card">
+      <h1>🌱 Grow a Garden Pets</h1>
+      <p>
+        Welcome to the Grow a Garden Pets section!  
+        Here we're going to trade our pets with each other!  
+        I'm looking for <strong>OVERPAYS</strong>, so if ur willing to overpay, just join my Discord server and DM me 🎉:  
+        <a href="https://discord.gg/WUvZwu3s" target="_blank">Join My Discord</a>
+      </p>
+      <a onclick="showPage('servicesPage')" class="back-btn">⬅ Back to Services</a>
+    </div>
+  </section>
+
+  <!-- DRAWINGS -->
+  <section class="drawings-page" id="drawingsPage">
+    <div class="drawings-card">
+      <h1>🎨 Professional Drawings -ngf</h1>
+      <p>
+        Welcome to the Drawings section!  
+        Here I offer <strong>custom drawings for both ingame values and real life money</strong>.  
+        If you're looking for art that stands out, let’s make a deal!  
+        <br><br>
+        ✏️ 1 normal drawing = <strong>1 DF / T-Rex / Spino</strong><br>
+        🎨 1 GOOD drawing = <strong>1 Raccoon</strong><br>
+        🖌️ 1 OF THE BEST DRAWINGS ON EARTH = <strong>3 Raccoons / 1 Red Kitsune</strong>
+      </p>
+      <a onclick="showPage('servicesPage')" class="back-btn">⬅ Back to Services</a>
+    </div>
+  </section>
+
+  <!-- WEBSITES -->
+  <section class="websites-page" id="websitesPage">
+    <div class="websites-card">
+      <h1>💻 Websites & Apps -ngf</h1>
+      <p>
+        Welcome to the websites section!!  
+        I create <strong>websites, apps and many other things</strong>  
+        for Grow a Garden pets, Robux and real life money!!  
+        <br><br>
+        ⚠️ Sadly I'm <strong>not going first</strong> for this section.
+      </p>
+      <a onclick="showPage('servicesPage')" class="back-btn">⬅ Back to Services</a>
+    </div>
+  </section>
+
+  <script>
+    function showPage(pageId) {
+      const pages = ["homePage", "servicesPage", "aboutPage", "growAGardenPage", "drawingsPage", "websitesPage"];
+      pages.forEach(id => {
+        const page = document.getElementById(id);
+        if (id === pageId) {
+          page.classList.add("active");
+        } else {
+          page.classList.remove("active");
+        }
+      });
+      window.scrollTo(0,0);
+    }
+  </script>
+
+</body>
+</html>
